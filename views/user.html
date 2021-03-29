@@ -1,0 +1,207 @@
+<div ng-include src="'views/sidebar.html'"></div>
+<div class="main-panel">
+  <!-- Navbar -->
+  <div ng-include src="'views/navbar.html'"></div>
+  <!-- End Navbar -->
+  
+  <div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">content_copy</i>
+                  </div>
+                  <p class="card-category">Clientes/Online</p>
+                  <span class="card-title">{{ !data ? 0 : (data).length }} / {{ !data ? 0 : (data | filter:'!offline').length }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">store</i>
+                  </div>
+                  <p class="card-category">Valor Por login</p>
+                  <span class="card-title">R$3,00</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">info_outline</i>
+                  </div>
+                  <p class="card-category">Você  deve ao servidor</p>
+                  <span class="card-title">R{{ TotalDev | currency }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                    <i class="fa fa-twitter"></i>
+                  </div>
+                  <p class="card-category">Faturamento mensal/total</p>
+                  <span class="card-title">R{{ Total | currency }} / R{{ TotalCob | currency }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+
+
+            <div class="card-header card-header-primary">
+              <h4 class="card-title ">Clientes <button class="btn btn-sm btn-white btn-round btn-just-icon"
+                  ng-click="editar(cat)">
+                  <i class="material-icons">add</i>
+                </button></h4>
+
+
+
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-primary">
+                    <th width="100">
+                      #
+                    </th>
+                    <th width="100">
+                      Habilitado
+                    </th>
+                    <th>
+                      Nome
+                    </th>
+                    <th>
+                      Canal
+                    </th>
+                    <th>
+                      Login
+                    </th>
+                    <th width="100">
+                      Valor
+                    </th>
+                  </thead>
+                  <tbody>
+                    <tr dir-paginate="cat in data | filter: search | orderBy: order | itemsPerPage:5">
+                      <td>
+                        <button class="btn btn-sm btn-white btn-round btn-just-icon" ng-click="editar(cat)">
+                          <i class="material-icons">border_color</i>
+                        </button>
+                        <button class="btn btn-sm btn-white btn-round btn-just-icon btn-danger" ng-click="excluir(cat)">
+                          <i class="material-icons">delete</i>
+                        </button>
+                      </td>
+                      <td align="center">
+                        <img width="16" src="img/{{cat.cliente.ativo ? 'greenlight.jpg' : 'redlight.jpg'}}">
+                      </td>
+                      <td>
+                        {{cat.cliente.nome}}
+                      </td>
+                      <td>
+                        {{cat.canal}}
+                      </td>
+                      <td>
+                        {{cat.cliente.login}}
+                      </td>
+                      <td class="text-primary">
+                        {{cat.cliente.valorCobrado | currency:"R$"}}
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row text-center">
+            <dir-pagination-controls template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html">
+            </dir-pagination-controls>
+          </div>
+
+
+
+          <!-- Modal -->
+          <div class="modal fade" id="modalupload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Cadastro de cliente</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form ng-submit="salvar(up)" name="form">
+                    <div class="row">
+                      <div class="checkbox col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Ativado</label>
+                          <input type="checkbox" ng-model="up.ativo">
+                        </div>
+                      </div>
+                      <div style="display:none" class="checkbox col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Teste</label>
+                          <input type="checkbox" ng-model="up.teste">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Nome</label>
+                          <input type="text" class="form-control" ng-model="up.nome">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Login</label>
+                          <input type="text" class="form-control" ng-model="up.login" ng-disabled="up.id">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Senha</label>
+                          <input type="password" class="form-control" ng-model="up.senha">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Email</label>
+                          <input type="email" class="form-control" ng-model="up.email">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Valor</label>
+                          <input type="text" class="form-control" ng-model="up.valorCobrado">
+                        </div>
+                      </div>
+
+                    </div>
+
+
+
+                    <div class="row">
+                      <button type="button" class="btn btn-secondary" ng-click="up = {}"
+                        data-dismiss="modal">Cancelar</button>
+                      <input type="submit" class="btn btn-primary" ng-disabled="!up.login || !up.nome" value="Salvar">
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>

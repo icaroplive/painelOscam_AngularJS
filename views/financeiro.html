@@ -1,0 +1,162 @@
+<div ng-include src="'views/sidebar.html'"></div>
+<div class="main-panel">
+  <!-- Navbar -->
+  <div ng-include src="'views/navbar.html'"></div>
+  <!-- End Navbar -->
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+
+
+            <div class="card-header card-header-primary">
+              <h4 class="card-title ">Financeiro </h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-primary">
+                    <th>
+                      Nome
+                    </th>
+                    <th>
+                      Valor
+                    </th>
+                    <th>
+                      Login
+                    </th>
+                    <th>
+                      Vencimento
+                    </th>
+                    <th>
+                      Lançamento
+                    </th>
+
+
+                  </thead>
+                  <tbody>
+                    <tr dir-paginate="cat in data | filter: search | orderBy: order | itemsPerPage:5">
+
+                      <td>
+                        {{cat.cliente.nome}}
+                      </td>
+                      <td>
+                        {{cat.valorCobrado | currency:"R$"}}
+                      </td>
+                      <td>
+                        {{cat.valorLogin | currency:"R$"}}
+                      </td>
+                      <td class="text-primary">
+                        {{cat.dataVencimento | date:'dd/MM/yyyy'}}
+                      </td>
+                      <td class="text-primary">
+                        {{cat.dataLancamento | date:'dd/MM/yyyy'}}
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <dir-pagination-controls template-url="node_modules/angular-utils-pagination/dirPagination.tpl.html">
+        </dir-pagination-controls>
+      </div>
+      </div>
+
+  </div>
+  
+  
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalupload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cadastro de financeiro {{up.id}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form ng-submit="salvar(up)" name="form">
+          <div class="row">
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="bmd-label-floating">Nome</label>
+                <p>{{up.cliente.nome}}</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="bmd-label-floating">Valor Login</label>
+                <p>{{up.valorLogin | currency:"R$"}}</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="bmd-label-floating">Data Lançamento</label>
+                <p> {{up.dataLancamento | date:'dd/MM/yyyy'}}</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Valor Cobrado</label>
+                <input type="text" class="form-control" ng-model="up.valorCobrado">
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Data Vencimento</label>
+                <input type="text" class="form-control" ng-model="up.dataVencimento"
+                  value="{{up.dataVencimento | date:'dd/MM/yyyy'}}">
+              </div>
+            </div>
+
+          </div>
+
+
+
+          <div class="row">
+            <button type="button" class="btn btn-secondary" ng-click="up = {}" data-dismiss="modal">Cancelar</button>
+            <input type="submit" class="btn btn-primary" value="Salvar">
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
